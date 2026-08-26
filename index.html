@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd); /* Background Biru Muda */
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -32,19 +32,19 @@
             position: relative;
             width: 300px;
             height: 200px;
-            background-color: #ff758f;
+            background-color: #0284c7; /* Warna Dasar Amplop (Biru) */
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
             border-radius: 0 0 10px 10px;
         }
 
-        /* Bagian Penutup Depan Amplop Kiri dan Kanan */
+        /* Sisi Depan Amplop Terbuka (Kiri-Kanan-Bawah) */
         .envelope::before {
             content: "";
             position: absolute;
             z-index: 3;
             border-left: 150px solid transparent;
             border-right: 150px solid transparent;
-            border-bottom: 100px solid #ff477e;
+            border-bottom: 100px solid #0369a1; /* Biru Gelap untuk lipatan bawah */
             bottom: 0;
             left: 0;
         }
@@ -55,21 +55,21 @@
             z-index: 3;
             border-top: 100px solid transparent;
             border-bottom: 100px solid transparent;
-            border-left: 150px solid #ff5c8a;
+            border-left: 150px solid #0ea5e9; /* Biru Terang untuk lipatan samping */
             top: 0;
             left: 0;
         }
 
-        /* Penutup Atas Amplop (Segitiga Atas) */
+        /* Penutup Atas Amplop (Membuatnya Tertutup Sempurna) */
         .flap {
             position: absolute;
             top: 0;
             left: 0;
             border-left: 150px solid transparent;
             border-right: 150px solid transparent;
-            border-top: 110px solid #ff477e;
+            border-top: 102px solid #0284c7; /* Ditambah sedikit nilainya agar menutup pas ke tengah */
             transform-origin: top;
-            transition: transform 0.4s ease z-index 0.2s;
+            transition: transform 0.4s ease, z-index 0.2s;
             z-index: 4;
         }
 
@@ -90,7 +90,7 @@
         }
 
         .letter-title {
-            color: #ff477e;
+            color: #0284c7; /* Judul Biru */
             font-size: 16px;
             font-weight: bold;
             text-align: center;
@@ -112,7 +112,7 @@
             bottom: -50px;
             width: 100%;
             text-align: center;
-            color: #ff477e;
+            color: #0369a1;
             font-weight: bold;
             font-size: 14px;
             animation: bounce 1.5s infinite;
@@ -148,12 +148,11 @@
 </head>
 <body>
 
-    <!-- Klik pada area ini untuk memicu animasi -->
     <div class="envelope-wrapper" onclick="toggleEnvelope()">
         <div class="flap"></div>
         <div class="envelope">
             <div class="letter">
-                <div class="letter-title">❤️ Untukmu...</div>
+                <div class="letter-title">💙 Untukmu...</div>
                 <div class="letter-text">
                     <p>Hai [Nama Dia],</p>
                     <br>
@@ -161,15 +160,14 @@
                     <br>
                     <p>Semoga harimu selalu menyenangkan dan penuh dengan kebahagiaan ya!</p>
                     <br>
-                    <p style="text-align: right; font-weight: bold; color: #9b5de5;">— [Nama Kamu]</p>
+                    <p style="text-align: right; font-weight: bold; color: #0284c7;">— [Nama Kamu]</p>
                 </div>
             </div>
         </div>
-        <div class="hint-text">Klik amplop untuk membuka 💌</div>
+        <div class="hint-text">Klik amplop untuk membuka 📩</div>
     </div>
 
     <script>
-        // Fungsi JavaScript untuk menambah/menghapus kelas animasi saat diklik
         function toggleEnvelope() {
             const wrapper = document.querySelector('.envelope-wrapper');
             wrapper.classList.toggle('open');
