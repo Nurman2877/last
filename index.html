@@ -27,44 +27,17 @@
             transform: translateY(50px);
         }
 
+        /* Wadah Utama Amplop */
         .envelope {
             position: relative;
             width: 300px;
             height: 200px;
-            background-color: #0284c7;
+            background-color: #0284c7; /* Warna latar belakang dalam */
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
             border-radius: 0 0 10px 10px;
         }
 
-        .envelope::before {
-            content: "";
-            position: absolute;
-            z-index: 3;
-            width: 100%;
-            height: 100%;
-            bottom: 0;
-            left: 0;
-            background: 
-                linear-gradient(to top right, #0369a1 49.9%, transparent 50%),
-                linear-gradient(to top left, #0369a1 49.9%, transparent 50%),
-                linear-gradient(to bottom right, #0ea5e9 49.9%, transparent 50%);
-            background-size: 50% 50%, 50% 50%, 50% 100%;
-            background-position: bottom left, bottom right, top left;
-            background-repeat: no-repeat;
-        }
-
-        .envelope::after {
-            content: "";
-            position: absolute;
-            z-index: 3;
-            width: 50%;
-            height: 100%;
-            top: 0;
-            right: 0;
-            background: linear-gradient(to bottom left, #0ea5e9 49.9%, transparent 50%);
-            background-repeat: no-repeat;
-        }
-
+        /* Lipatan Atas (Segitiga Penutup) */
         .flap {
             position: absolute;
             top: 0;
@@ -79,6 +52,53 @@
             z-index: 4;
         }
 
+        /* PERBAIKAN: Elemen lipatan depan terpisah agar presisi */
+        .front-folds {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            overflow: hidden;
+            border-radius: 0 0 10px 10px;
+        }
+
+        /* Lipatan Kiri */
+        .fold-left {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-top: 100px solid transparent;
+            border-bottom: 100px solid transparent;
+            border-left: 151px solid #0ea5e9;
+        }
+
+        /* Lipatan Kanan */
+        .fold-right {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-top: 100px solid transparent;
+            border-bottom: 100px solid transparent;
+            border-right: 151px solid #0ea5e9;
+        }
+
+        /* Lipatan Bawah */
+        .fold-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 101px solid #0369a1;
+        }
+
+        /* Kertas Surat */
         .letter {
             position: absolute;
             bottom: 5px;
@@ -131,6 +151,7 @@
             50% { transform: translateY(-5px); }
         }
 
+        /* --- ANIMASI BUKA --- */
         .envelope-wrapper.open .flap {
             transform: rotateX(180deg);
             z-index: 1;
@@ -158,6 +179,13 @@
     <div class="envelope-wrapper" onclick="toggleEnvelope()">
         <div class="flap"></div>
         <div class="envelope">
+            <!-- Struktur lipatan depan yang baru -->
+            <div class="front-folds">
+                <div class="fold-left"></div>
+                <div class="fold-right"></div>
+                <div class="fold-bottom"></div>
+            </div>
+            
             <div class="letter">
                 <div class="letter-title">💙 Untukmu...</div>
                 <div class="letter-text">
