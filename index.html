@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #e0f2fe, #bae6fd); /* Background Biru Muda */
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -21,7 +21,6 @@
             overflow: hidden;
         }
 
-        /* Wadah Utama Amplop */
         .envelope-wrapper {
             position: relative;
             cursor: pointer;
@@ -32,48 +31,54 @@
             position: relative;
             width: 300px;
             height: 200px;
-            background-color: #0284c7; /* Warna Dasar Amplop (Biru) */
+            background-color: #0284c7;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
             border-radius: 0 0 10px 10px;
         }
 
-        /* Sisi Depan Amplop Terbuka (Kiri-Kanan-Bawah) */
         .envelope::before {
             content: "";
             position: absolute;
             z-index: 3;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-bottom: 100px solid #0369a1; 
+            width: 100%;
+            height: 100%;
             bottom: 0;
             left: 0;
+            background: 
+                linear-gradient(to top right, #0369a1 49.9%, transparent 50%),
+                linear-gradient(to top left, #0369a1 49.9%, transparent 50%),
+                linear-gradient(to bottom right, #0ea5e9 49.9%, transparent 50%);
+            background-size: 50% 50%, 50% 50%, 50% 100%;
+            background-position: bottom left, bottom right, top left;
+            background-repeat: no-repeat;
         }
 
         .envelope::after {
             content: "";
             position: absolute;
             z-index: 3;
-            border-top: 100px solid transparent;
-            border-bottom: 100px solid transparent;
-            border-left: 150px solid #0ea5e9; /* Biru Terang untuk lipatan samping */
+            width: 50%;
+            height: 100%;
             top: 0;
-            left: 0;
+            right: 0;
+            background: linear-gradient(to bottom left, #0ea5e9 49.9%, transparent 50%);
+            background-repeat: no-repeat;
         }
 
-        /* Penutup Atas Amplop (Membuatnya Tertutup Sempurna) */
         .flap {
             position: absolute;
             top: 0;
             left: 0;
+            width: 0;
+            height: 0;
             border-left: 150px solid transparent;
             border-right: 150px solid transparent;
-            border-top: 102px solid #0284c7; /* Ditambah sedikit nilainya agar menutup pas ke tengah */
+            border-top: 105px solid #0284c7;
             transform-origin: top;
             transition: transform 0.4s ease, z-index 0.2s;
             z-index: 4;
         }
 
-        /* Kertas Surat di Dalam Amplop */
         .letter {
             position: absolute;
             bottom: 5px;
@@ -90,7 +95,7 @@
         }
 
         .letter-title {
-            color: #0284c7; /* Judul Biru */
+            color: #0284c7;
             font-size: 16px;
             font-weight: bold;
             text-align: center;
@@ -106,7 +111,10 @@
             transition: opacity 0.3s ease;
         }
 
-        /* Teks Petunjuk Klik */
+        .letter-text p {
+            margin-bottom: 8px;
+        }
+
         .hint-text {
             position: absolute;
             bottom: -50px;
@@ -123,7 +131,6 @@
             50% { transform: translateY(-5px); }
         }
 
-        /* --- ANIMASI SAAT DIKLIK (ACTIVE) --- */
         .envelope-wrapper.open .flap {
             transform: rotateX(180deg);
             z-index: 1;
@@ -155,12 +162,9 @@
                 <div class="letter-title">💙 Untukmu...</div>
                 <div class="letter-text">
                     <p>Hai [Nama Dia],</p>
-                    <br>
                     <p>Aku sengaja membuat halaman web ini khusus untukmu. Lewat tulisan singkat ini, aku hanya ingin mengucapkan terima kasih karena kamu sudah selalu menjadi orang yang luar biasa dan hadir di hidupku.</p>
-                    <br>
                     <p>Semoga harimu selalu menyenangkan dan penuh dengan kebahagiaan ya!</p>
-                    <br>
-                    <p style="text-align: right; font-weight: bold; color: #0284c7;">— [Nama Kamu]</p>
+                    <p style="text-align: right; font-weight: bold; color: #0284c7; margin-top: 15px;">— [Nama Kamu]</p>
                 </div>
             </div>
         </div>
