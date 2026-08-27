@@ -235,7 +235,7 @@
 </head>
 <body>
 
-      <div class="envelope-wrapper">
+    <div class="envelope-wrapper">
         <div class="flap"></div>
         <div class="envelope" onclick="openEnvelope()">
             <div class="front-folds">
@@ -247,26 +247,41 @@
             <div class="letter">
                 <div class="letter-title">💙 Untukmu...</div>
                 
+                <!-- Konten teks dipisah agar scrollbar tidak merusak layout tombol -->
                 <div class="letter-content-scroll">
                     <div class="letter-text" id="suratTeks">
-                        <p>Hai [Nama Dia],</p>
-                        <p>Aku sengaja membuat halaman web ini khusus untukmu. Lewat tulisan singkat ini, aku hanya ingin mengucapkan terima kasih karena kamu sudah selalu menjadi orang yang luar biasa dan hadir di hidupku.</p>
-                        <p>Semoga harimu selalu menyenangkan dan penuh dengan kebahagiaan ya!</p>
-                        <p style="text-align: right; font-weight: bold; color: #0284c7; margin-top: 15px;">— [Nama Kamu]</p>
+                        <p>Hai Leony Monica Pratiwi,</p>
+                        <p>yon aku meh tanya, nek aku tetep ngejar kau oleh kan?</p>
+<p>aku cuma meh menyukai kau dari kejauhan wes, aku ra ganggu kehidupanmu neh, mungkin emang waktuku wae seng ra tepat wingi</p>
+
+<p>nek kau wes gelem bukak hati neh hubungi aku yaaa plisss bilang iya</p>
+
+<p>aku wingi wingi wedi kelangan kau yon, aku ngroso kalah, aku ngroso kita sedeket itu tapi kau malah cedak ro wong liyo, aku ngrosone aku iso koyo wong kui tapi ngopo seng dipilih wong liyo hudu aku</p>
+
+<p>nek kau butuh temen/butuh bantuan apapun hubungi aku yaaaa, bakal ku usahakan semampuku okee</p>
+
+<p>nek emang sekarang aku raiso dadi lebih dari teman anggap wae sebagai saudara, aku reti meski kau ki perempuan kuat, mental baja sebagai anak pertama tapi kau tetep pengen kan punya seseorang seng ngertikke dirimu seng iso dadi sosok kakak itu, yaa mungkin aku ra se hebat iku dengan mentalku sebagai adek neng keluargaku juga tapi aku pengen berusaha yon</p>
+
+<p>kapan kapan nek kau wes ra sibuk, ra sayah crito ya kau ki gek kenopo trus kau pengen e aku bantu apa, aku mohon dengan sangat yaa aku ra meh maksa kau aku cuma pengen bantu kau, pliss kau ra perlu kasian mbek aku kau raperlu rapenak mbek aku</p>
+
+<p>pliss ya yon pliss aku kudu pie neh men kau gelem nerima aku neng hidupmu seperti kemarin kae, nek emang raiso omong neng chat tak parani kau meh neng ndi? yahopo? kapan? aku janji aku rabakal jahan neng kau selagi kau jujur mbek aku </p>
+                        <p style="text-align: right; font-weight: bold; color: #0284c7; margin-top: 15px;">—From Pengagummu</p>
                     </div>
                 </div>
+                <div class="leter-text" id="deskripsi">
+                    <p style="color: rgba(0, 0, 0, 0.4); font-weight: bold; text-align: bottom; font-size: 6 ">
+    copy wae nek kangelen moco neng kene
+</p>
 
-                <!-- Menu Tombol -->
+
+                </div>
+
+                <!-- Menu Tombol di Kiri & Kanan Bawah -->
                 <div class="letter-menu">
                     <button class="btn-menu btn-close" onclick="closeEnvelope(event)">Tutup</button>
-                    <button class="btn-menu btn-copy" onclick="copyText(event)" id="btnCopy">copy wae nek kangelen moco neng kene</button>
+                    <button class="btn-menu btn-copy" onclick="copyText(event)" id="btnCopy">copy all</button>
                 </div>
-
-                <!-- Teks Transparan di Ujung Bawah -->
-                <div class="bottom-transparent-text">
-                    *dibuat dengan sepenuh hati oleh [Nama Kamu]
-                </div>
-            </div>
+    </div>
         </div>
         <div class="hint-text">Klik amplop untuk membuka 📩</div>
     </div>
@@ -275,22 +290,27 @@
         const wrapper = document.querySelector('.envelope-wrapper');
 
         function openEnvelope() {
+            // Amplop hanya terbuka jika belum dalam posisi 'open'
             if (!wrapper.classList.contains('open')) {
                 wrapper.classList.add('open');
             }
         }
 
         function closeEnvelope(event) {
+            // Stop propagation agar klik tombol tutup tidak memicu fungsi openEnvelope kembali
             event.stopPropagation();
             wrapper.classList.remove('open');
         }
 
         function copyText(event) {
             event.stopPropagation();
+            
+            // Mengambil teks dari element surat
             const textToCopy = document.getElementById('suratTeks').innerText;
             const btnCopy = document.getElementById('btnCopy');
             
             navigator.clipboard.writeText(textToCopy).then(() => {
+                // Efek feedback visual saat berhasil menyalin teks
                 const originalText = btnCopy.innerText;
                 btnCopy.innerText = "✓ Berhasil disalin!";
                 btnCopy.style.backgroundColor = "#047857";
