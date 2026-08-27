@@ -23,8 +23,7 @@
 
         .envelope-wrapper {
             position: relative;
-            cursor: pointer;
-            transform: translateY(50px);
+            transform: translateY(40px);
         }
 
         /* Wadah Utama Amplop */
@@ -32,9 +31,10 @@
             position: relative;
             width: 300px;
             height: 200px;
-            background-color: #0284c7; /* Warna latar belakang dalam */
+            background-color: #0284c7; 
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
             border-radius: 0 0 10px 10px;
+            cursor: pointer;
         }
 
         /* Lipatan Atas (Segitiga Penutup) */
@@ -48,11 +48,11 @@
             border-right: 150px solid transparent;
             border-top: 105px solid #0284c7;
             transform-origin: top;
-            transition: transform 0.4s ease, z-index 0.2s;
+            transition: transform 0.4s ease, z-index 0.4s;
             z-index: 4;
         }
 
-        /* PERBAIKAN: Elemen lipatan depan terpisah agar presisi */
+        /* Elemen lipatan depan */
         .front-folds {
             position: absolute;
             width: 100%;
@@ -60,6 +60,7 @@
             z-index: 3;
             overflow: hidden;
             border-radius: 0 0 10px 10px;
+            pointer-events: none;
         }
 
         /* Lipatan Kiri */
@@ -101,17 +102,18 @@
         /* Kertas Surat */
         .letter {
             position: absolute;
-            bottom: 5px;
+            bottom: 10px;
             left: 15px;
             width: 270px;
             height: 180px;
             background-color: #ffffff;
             border-radius: 8px;
-            padding: 20px;
+            padding: 20px 20px 50px 20px; /* Padding bawah ditambah untuk area tombol */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.5s ease, height 0.5s ease;
+            transition: transform 0.5s ease, height 0.5s ease, z-index 0.5s;
             z-index: 2;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .letter-title {
@@ -120,6 +122,13 @@
             font-weight: bold;
             text-align: center;
             margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .letter-content-scroll {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-right: 4px;
         }
 
         .letter-text {
@@ -133,6 +142,49 @@
 
         .letter-text p {
             margin-bottom: 8px;
+        }
+
+        /* --- MENU TOMBOL BARU --- */
+        .letter-menu {
+            position: absolute;
+            bottom: 12px;
+            left: 15px;
+            right: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .btn-menu {
+            border: none;
+            padding: 6px 10px;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-close {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .btn-close:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-copy {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .btn-copy:hover {
+            background-color: #059669;
         }
 
         .hint-text {
@@ -158,10 +210,9 @@
         }
 
         .envelope-wrapper.open .letter {
-            transform: translateY(-130px);
-            height: 280px;
+            transform: translateY(-140px);
+            height: 270px;
             z-index: 5;
-            overflow-y: auto;
         }
 
         .envelope-wrapper.open .letter-text {
@@ -169,17 +220,24 @@
             transition-delay: 0.4s;
         }
 
+        .envelope-wrapper.open .letter-menu {
+            opacity: 1;
+            pointer-events: auto;
+            transition-delay: 0.5s;
+        }
+
         .envelope-wrapper.open .hint-text {
-            display: none;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
         }
     </style>
 </head>
 <body>
 
-    <div class="envelope-wrapper" onclick="toggleEnvelope()">
+    <div class="envelope-wrapper">
         <div class="flap"></div>
-        <div class="envelope">
-            <!-- Struktur lipatan depan yang baru -->
+        <div class="envelope" onclick="openEnvelope()">
             <div class="front-folds">
                 <div class="fold-left"></div>
                 <div class="fold-right"></div>
@@ -188,11 +246,21 @@
             
             <div class="letter">
                 <div class="letter-title">💙 Untukmu...</div>
-                <div class="letter-text">
-                    <p>Hai [Nama Dia],</p>
-                    <p>Aku sengaja membuat halaman web ini khusus untukmu. Lewat tulisan singkat ini, aku hanya ingin mengucapkan terima kasih karena kamu sudah selalu menjadi orang yang luar biasa dan hadir di hidupku.</p>
-                    <p>Semoga harimu selalu menyenangkan dan penuh dengan kebahagiaan ya!</p>
-                    <p style="text-align: right; font-weight: bold; color: #0284c7; margin-top: 15px;">— [Nama Kamu]</p>
+                
+                <!-- Konten teks dipisah agar scrollbar tidak merusak layout tombol -->
+                <div class="letter-content-scroll">
+                    <div class="letter-text" id="suratTeks">
+                        <p>Hai [Nama Dia],</p>
+                        <p>Aku sengaja membuat halaman web ini khusus untukmu. Lewat tulisan singkat ini, aku hanya ingin mengucapkan terima kasih karena kamu sudah selalu menjadi orang yang luar biasa dan hadir di hidupku.</p>
+                        <p>Semoga harimu selalu menyenangkan dan penuh dengan kebahagiaan ya!</p>
+                        <p style="text-align: right; font-weight: bold; color: #0284c7; margin-top: 15px;">— [Nama Kamu]</p>
+                    </div>
+                </div>
+
+                <!-- Menu Tombol di Kiri & Kanan Bawah -->
+                <div class="letter-menu">
+                    <button class="btn-menu btn-close" onclick="closeEnvelope(event)">Tutup</button>
+                    <button class="btn-menu btn-copy" onclick="copyText(event)" id="btnCopy">copy wae nek kangelen moco neng kene</button>
                 </div>
             </div>
         </div>
@@ -200,9 +268,41 @@
     </div>
 
     <script>
-        function toggleEnvelope() {
-            const wrapper = document.querySelector('.envelope-wrapper');
-            wrapper.classList.toggle('open');
+        const wrapper = document.querySelector('.envelope-wrapper');
+
+        function openEnvelope() {
+            // Amplop hanya terbuka jika belum dalam posisi 'open'
+            if (!wrapper.classList.contains('open')) {
+                wrapper.classList.add('open');
+            }
+        }
+
+        function closeEnvelope(event) {
+            // Stop propagation agar klik tombol tutup tidak memicu fungsi openEnvelope kembali
+            event.stopPropagation();
+            wrapper.classList.remove('open');
+        }
+
+        function copyText(event) {
+            event.stopPropagation();
+            
+            // Mengambil teks dari element surat
+            const textToCopy = document.getElementById('suratTeks').innerText;
+            const btnCopy = document.getElementById('btnCopy');
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Efek feedback visual saat berhasil menyalin teks
+                const originalText = btnCopy.innerText;
+                btnCopy.innerText = "✓ Berhasil disalin!";
+                btnCopy.style.backgroundColor = "#047857";
+                
+                setTimeout(() => {
+                    btnCopy.innerText = originalText;
+                    btnCopy.style.backgroundColor = "#10b981";
+                }, 2000);
+            }).catch(err => {
+                alert("Gagal menyalin teks: ", err);
+            });
         }
     </script>
 
